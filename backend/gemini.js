@@ -187,8 +187,13 @@ User: "${command}"
     });
     return result.data.candidates[0].content.parts[0].text;
   } catch (error) {
-    console.log("Error fetching Gemini response:", error);
-  }
+      console.log("Error fetching Gemini response:", error.response?.data || error.message);
+      return JSON.stringify({
+        type: "general",
+        userInput: command,
+        response: "Sorry, I'm a bit busy right now. Please try again in a moment."
+      });
+    }
 };
 
 export default geminiResponse;
