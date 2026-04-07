@@ -6,7 +6,7 @@ import { useContext } from 'react';
 export const userDataContext = React.createContext();
 
 function UserContext({ children }) {
-  const serverUrl = "http://localhost:8000";
+  const serverUrl = "https://virtual-assistance-backend-s3m9.onrender.com";
   const [userData, setUserData] = useState(null);
   const [frontendImage, setFrontendImage] = React.useState(null);
   const [backendImage, setBackendImage] = React.useState(null);
