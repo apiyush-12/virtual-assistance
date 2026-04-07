@@ -15,6 +15,7 @@ function Home() {
   const recognitionRef = useRef(null);
   const isRecognizingRef = useRef(false);
   const synth=window.speechSynthesis;
+  const lastCallTimeRef = useRef(0);
 
   const handleLogout = async () => {
     try{
@@ -157,24 +158,33 @@ function Home() {
       }
     };
 
-    recognition.onresult = async (event) => {
-      const transcript = event.results[event.results.length - 1][0].transcript.trim();
-      console.log('Recognized:', transcript);
+recognition.onresult = async (event) => {
+  const now = Date.now();
 
-      if(transcript.toLowerCase().includes(userData.assistantName.toLowerCase())) {
-        setAiText("");
-        setUserText(transcript);
-        recognition.stop();
-        isRecognizingRef.current=false;
-        setListening(false);
-        const data = await getGeminiResponse(transcript);
-        console.log("Gemini response:", data);
-        handleCommand(data);
-        setAiText(data.response);
-        setUserText("");
-      }
-    };
+  // ⛔ prevent too many API calls (3 sec delay)
+  if (now - lastCallTimeRef.current < 3000) return;
 
+  lastCallTimeRef.current = now;
+
+  const transcript = event.results[event.results.length - 1][0].transcript.trim();
+  console.log('Recognized:', transcript);
+
+  if (transcript.toLowerCase().startsWith(userData.assistantName.toLowerCase())) {
+    setAiText("");
+    setUserText(transcript);
+
+    recognition.stop();
+    isRecognizingRef.current = false;
+    setListening(false);
+
+    const data = await getGeminiResponse(transcript);
+    console.log("Gemini response:", data);
+
+    handleCommand(data);
+    setAiText(data.response);
+    setUserText("");
+  }
+};
     const greetings = [
       `Hello ${userData.name}! How can I assist you today?`,
       `Hi ${userData.name}! What can I do for you?`,
