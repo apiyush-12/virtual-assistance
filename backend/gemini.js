@@ -18,7 +18,7 @@ Understand the user's natural language input and respond ONLY in strict JSON for
 RESPONSE FORMAT:
 
 {
-  "type": "general" | "google-search" | "youtube-search" | "youtube-play" | "get-time" | "get-date" | "get-day" | "get-month" | "calculator-open" | "instagram-open" | "facebook-open" | "weather-show",
+  "type": "general" | "google-search" | "youtube-search" | "youtube-play" | "youtube-open" | "get-time" | "get-date" | "get-day" | "get-month" | "calculator-open" | "instagram-open" | "facebook-open" | "weather-show",
 
   "userInput": "<cleaned user input>",
 
@@ -65,17 +65,18 @@ Examples:
     - Simple explanations
     - Conversations (hello, how are you, etc.)
   • ALWAYS use "general" if no specific action is required
-- "google-search": search something on Google
-- "youtube-search": search something on YouTube
-- "youtube-play": play a video or song
-- "calculator-open": open calculator
-- "instagram-open": open Instagram
-- "facebook-open": open Facebook
-- "weather-show": show weather
-- "get-time": current time
-- "get-date": today's date
-- "get-day": current day
-- "get-month": current month
+    - "google-search": search something on Google
+    - "youtube-search": search something on YouTube
+    - "youtube-open": open YouTube homepage
+    - "youtube-play": play a video or song
+    - "calculator-open": open calculator
+    - "instagram-open": open Instagram
+    - "facebook-open": open Facebook
+    - "weather-show": show weather
+    - "get-time": current time
+    - "get-date": today's date
+    - "get-day": current day
+    - "get-month": current month
 
 --------------------------------------------
 
@@ -170,6 +171,17 @@ Output:
   "type": "general",
   "userInput": "who created you",
   "response": "I was created by ${userName}"
+}
+
+--------------------------------------------
+
+User: "open youtube"
+
+Output:
+{
+  "type": "youtube-open",
+  "userInput": "youtube",
+  "response": "Opening YouTube"
 }
 
 --------------------------------------------
