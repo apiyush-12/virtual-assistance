@@ -75,8 +75,12 @@ function Home() {
       window.open(`calculator:`, '_blank');
     }
     if(type === 'youtube-search' || type === 'youtube-open' || type === 'youtube-play'){
-      const query = encodeURIComponent(userInput);
-      window.open(`https://www.youtube.com/results?search_query=${query}`, '_blank');
+      let cleaned = userInput
+      .replace("play", "")
+      .replace("on youtube", "")
+      .trim();
+      const query = encodeURIComponent(cleaned);
+      window.location.href = `https://www.youtube.com/results?search_query=${query}`;
     }
     if(type === 'instagram-open'){
       window.open(`https://www.instagram.com/search/?q=${encodeURIComponent(userInput)}`, '_blank');
