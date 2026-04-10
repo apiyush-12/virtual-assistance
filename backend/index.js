@@ -12,7 +12,7 @@ dotenv.config();
 const app = express();
 const PORT = process.env.PORT || 8000;
 
-// ✅ CORS (FIXED)
+
 app.use(cors({
   origin: [
     "http://localhost:5173",
@@ -23,22 +23,20 @@ app.use(cors({
   allowedHeaders: ["Content-Type", "Authorization"]
 }));
 
-// ✅ MIDDLEWARE
 app.use(express.json());
 app.use(cookieParser());
 
-// ✅ ROUTES
+
 app.use("/api/auth", authRouter);
 app.use("/api/user", userRouter);
 
-// ✅ TEST ROUTE
+
 app.get("/", async (req, res) => {
   let prompt = req.query.prompt;
   let data = await geminiResponse(prompt);
   res.json(data);
 });
 
-// ✅ START SERVER
 connectDb()
   .then(() => {
     app.listen(PORT, () => {
